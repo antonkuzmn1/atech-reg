@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  username String @unique @db.Char(15)
+  password String @db.Char(15)
+}
+
+model Initiator {
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.Char(50)
+
+  tablesMain TableMain[]
+  tablesAll  TableAll[]
+}
+
+model Contractor {
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.Char(50)
+
+  tablesMain TableMain[]
+  tablesAll  TableAll[]
+}
+
+model TableMain {
+  id              Int       @id @default(autoincrement())
+  dateInput       DateTime
+  dateCopy        DateTime?
+  dateOrig        DateTime?
+  textDestination String    @db.Char(255)
+  sum             Float
+  sumClosing      Float
+  contractorId    Int       @default(0)
+  initiatorId     Int       @default(0)
+  ddAbout         Int       @default(0)
+  ddMark          Int       @default(0)
+  ddStatus        Int       @default(0)
+
+  contractor Contractor @relation(fields: [contractorId], references: [id])
+  initiator  Initiator  @relation(fields: [initiatorId], references: [id])
+}
+
+model TableAll {
+  id              Int      @id @default(autoincrement())
+  dateDocument    DateTime
+  dateCopy        DateTime
+  dateOrig        DateTime
+  textDestination String   @db.Char(255)
+  sum             Float
+  number          Int
+  contractorId    Int      @default(0)
+  initiatorId     Int      @default(0)
+  ddMark          Int      @default(0)
+  ddStatus        Int      @default(0)
+
+  contractor Contractor @relation(fields: [contractorId], references: [id])
+  initiator  Initiator  @relation(fields: [initiatorId], references: [id])
+}
