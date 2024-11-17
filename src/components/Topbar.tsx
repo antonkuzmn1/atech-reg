@@ -15,15 +15,15 @@ const Topbar = () => {
     const pathname = usePathname();
 
     return (
-        <div className="bg-white h-12 flex items-center border-b-2">
-            <nav className="flex space-x-4 ml-8">
+        <div className="h-12 flex items-center border-b-2 fixed top-0 left-0 right-0 bg-white z-50">
+            <nav className="flex">
                 {links.map((link, index) => (
                     <Link
                         key={index}
                         href={link.href}
                         className={classNames({
-                            'px-4 py-2 text-black hover:bg-gray-200 rounded-md transition-all duration-200': true,
-                            'bg-blue-500 text-white': pathname === link.href
+                            'px-4 h-12 w-64 hover:bg-gray-200 flex items-center justify-center': true,
+                            'bg-gray-200': pathname === link.href
                         })}
                         children={link.label}
                     />

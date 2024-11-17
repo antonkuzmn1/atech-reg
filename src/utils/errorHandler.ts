@@ -1,13 +1,12 @@
 import {logger} from "@/utils/logger";
 import {NextResponse} from "next/server";
-import {StatusData} from "@/utils/interfaces";
 
-export function errorHandler(error: any): NextResponse<StatusData> {
+export function errorHandler(error: any): NextResponse {
     if (error instanceof Error) {
         logger.error(error.message);
-        return NextResponse.json({status: 500, data: error.message});
+        return NextResponse.json(error.message, {status: 500});
     } else {
         logger.error('Unexpected error');
-        return NextResponse.json({status: 500, data: 'Unexpected error'});
+        return NextResponse.json('Unexpected error', {status: 500});
     }
 }

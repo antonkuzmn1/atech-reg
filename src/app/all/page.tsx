@@ -1,7 +1,5 @@
-import Counter from "@/components/Counter";
-
 export default function Home() {
     return (
-        <Counter/>
+        <h1>All</h1>
     );
 }

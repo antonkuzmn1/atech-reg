@@ -5,36 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e13b45b-0aff-44b8-86af-94e78b50d2aa" name="Changes" comment="Added security API">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/all/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/api/auth/route.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/api/route.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/auth/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/import/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/main/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/not-found.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Counter.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Topbar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/Providers.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/slices/exampleSlice.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/errorHandler.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/getTokenByCredentials.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/getUserByToken.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/interfaces.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/logger.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/prisma.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/atech-reg.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/globals.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Loading.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Message.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Root.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/slices/appSlice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/all/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/all/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/auth/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/auth/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/auth/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Counter.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Topbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Topbar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/slices/exampleSlice.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/errorHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/errorHandler.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +64,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/anton/WebstormProjects/atech-reg/src/app/utils&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/anton/WebstormProjects/atech-reg/src/components&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -94,6 +78,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components" />
       <recent name="$PROJECT_DIR$/src/app/utils" />
       <recent name="$PROJECT_DIR$/src/app/pages" />
       <recent name="$PROJECT_DIR$/src/app" />
@@ -156,7 +141,10 @@
       <workItem from="1731732681245" duration="9241000" />
       <workItem from="1731748520617" duration="871000" />
       <workItem from="1731770784525" duration="3185000" />
-      <workItem from="1731775863245" duration="3111000" />
+      <workItem from="1731775863245" duration="3177000" />
+      <workItem from="1731828945307" duration="4274000" />
+      <workItem from="1731836620241" duration="825000" />
+      <workItem from="1731838408244" duration="1449000" />
     </task>
     <task id="LOCAL-00001" summary="Created new application">
       <option name="closed" value="true" />
@@ -166,7 +154,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731732921271</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added security API">
+      <option name="closed" value="true" />
+      <created>1731779020383</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1731779020383</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

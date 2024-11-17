@@ -1,8 +1,9 @@
 import type {Metadata} from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
-import Topbar from "@/components/Topbar";
 import Providers from '@/store/Providers';
+import React from "react";
+import Root from "@/components/Root";
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -24,8 +25,11 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
     return (
         <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Topbar/>
-        <Providers>{children}</Providers>
+        <Providers>
+            <Root>
+                {children}
+            </Root>
+        </Providers>
         </body>
         </html>
     );
