@@ -6,6 +6,7 @@ import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import {setAppLoading, setAppLoggedIn, setAppMessage} from "@/store/slices/appSlice";
 import {RootState} from "@/store";
+import Cookies from "js-cookie";
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -28,7 +29,10 @@ export default function Home() {
         axios.post('/api/auth', {
             ...formData,
         }).then((res) => {
-            dispatch(setAppLoggedIn(res.status === 200));
+            const token = res.data;
+            Cookies.set('token', token, {expires: 0.5});
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            dispatch(setAppLoggedIn(true));
         }).catch((err) => {
             dispatch(setAppMessage(err.response.data));
         }).finally(() => {
@@ -37,6 +41,8 @@ export default function Home() {
     };
 
     const logout = () => {
+        Cookies.remove('token');
+        delete axios.defaults.headers.common['Authorization'];
         dispatch(setAppLoggedIn(false));
     }
 
