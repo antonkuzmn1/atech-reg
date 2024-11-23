@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8e13b45b-0aff-44b8-86af-94e78b50d2aa" name="Changes" comment="Added loading and message">
-      <change afterPath="$PROJECT_DIR$/src/hooks/useUser.ts" afterDir="false" />
+    <list default="true" id="8e13b45b-0aff-44b8-86af-94e78b50d2aa" name="Changes" comment="Added auth system">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/auth/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/auth/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Message.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Message.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/import/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/import/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Root.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Root.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Topbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Topbar.tsx" afterDir="false" />
     </list>
@@ -138,7 +136,11 @@
       <workItem from="1731775863245" duration="3177000" />
       <workItem from="1731828945307" duration="4274000" />
       <workItem from="1731836620241" duration="825000" />
-      <workItem from="1731838408244" duration="3908000" />
+      <workItem from="1731838408244" duration="6505000" />
+      <workItem from="1732109429871" duration="3627000" />
+      <workItem from="1732268269792" duration="40000" />
+      <workItem from="1732342224886" duration="1697000" />
+      <workItem from="1732344545382" duration="5694000" />
     </task>
     <task id="LOCAL-00001" summary="Created new application">
       <option name="closed" value="true" />
@@ -164,7 +166,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731840057736</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Added auth system">
+      <option name="closed" value="true" />
+      <created>1731846240050</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1731846240050</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -174,6 +184,7 @@
     <MESSAGE value="Created new application" />
     <MESSAGE value="Added security API" />
     <MESSAGE value="Added loading and message" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added loading and message" />
+    <MESSAGE value="Added auth system" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added auth system" />
   </component>
 </project>

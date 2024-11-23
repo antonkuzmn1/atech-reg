@@ -18,7 +18,7 @@ const Topbar = () => {
     const loggedIn = useSelector((state: RootState) => state.app.loggedIn);
 
     return (
-        <div className="h-12 flex items-center border-b-2 fixed top-0 left-0 right-0 bg-white z-50">
+        <div className="h-12 flex items-center border-b fixed top-0 left-0 right-0 bg-white z-50">
             <nav className="flex">
                 {links.map((link, index) =>
                         (!link.auth || loggedIn) && (

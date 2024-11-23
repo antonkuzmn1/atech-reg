@@ -12,7 +12,7 @@ export default function Root({children}: { children: React.ReactNode }) {
     return (
         <>
             <Topbar/>
-            <div className={'fixed top-12 w-full'}>
+            <div className="mt-12 h-[calc(100vh-3rem)] overflow-auto">
                 {children}
             </div>
             <Loading/>
