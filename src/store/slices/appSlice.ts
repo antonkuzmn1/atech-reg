@@ -7,7 +7,7 @@ interface AppState {
 }
 
 const initialState: AppState = {
-    loading: false,
+    loading: true,
     message: "",
     loggedIn: false,
 }

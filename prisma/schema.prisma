@@ -43,6 +43,7 @@ model TableMain {
   ddAbout         Int       @default(0)
   ddMark          Int       @default(0)
   ddStatus        Int       @default(0)
+  description     String    @default("") @db.VarChar(255)
 
   contractor Contractor @relation(fields: [contractorId], references: [id])
   initiator  Initiator  @relation(fields: [initiatorId], references: [id])

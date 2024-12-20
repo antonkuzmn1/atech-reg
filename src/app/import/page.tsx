@@ -3,6 +3,9 @@
 import * as XLSX from 'xlsx';
 import {ChangeEvent, useEffect, useState} from "react";
 import {WorkSheet} from "xlsx";
+import axios from "axios";
+import {useDispatch} from "react-redux";
+import {setAppLoading} from "@/store/slices/appSlice";
 
 export interface ImportTableRow {
     number: number;
@@ -14,18 +17,21 @@ export interface ImportTableRow {
 }
 
 export default function Home() {
+    const dispatch = useDispatch();
 
     const [sheet, setSheet] = useState<WorkSheet>([]);
     const [table, setTable] = useState<ImportTableRow[]>([]);
 
     const [from, setFrom] = useState<number>(10);
-    const [to, setTo] = useState<number>(15);
+    const [to, setTo] = useState<number>(10);
 
     const [inputDate, setInputDate] = useState<string>('A');
     const [contrAgent, setContrAgent] = useState<string>('D');
     const [paymentDestination, setPaymentDestination] = useState<string>('F');
     const [initiatorOfPayment, setInitiatorOfPayment] = useState<string>('G');
     const [sum, setSum] = useState<string>('H');
+
+    const [total, setTotal] = useState<number>(0);
 
     const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -47,7 +53,17 @@ export default function Home() {
     };
 
     const submit = async () => {
+        dispatch(setAppLoading(true));
         console.log(table);
+        axios.post('/api/main', {
+            table
+        }).then((response) => {
+            setTotal(response.data.total);
+        }).catch((error) => {
+            console.error(error);
+        }).finally(() => {
+            dispatch(setAppLoading(false));
+        });
     }
 
     useEffect(() => {
@@ -105,9 +121,9 @@ export default function Home() {
             <table className="sticky top-[-1px]">
                 <thead>
                 <tr>
-                    <th className='border bg-white h-10'>
+                    <th className='border bg-white h-10 font-normal'>
                     </th>
-                    <th className='border bg-white h-10' style={{minWidth: 200, maxWidth: 200}}>
+                    <th className='border bg-white h-10 font-normal' style={{minWidth: 200, maxWidth: 200}}>
                         <input
                             className='w-full h-full text-center'
                             type='number'
@@ -115,7 +131,7 @@ export default function Home() {
                             onChange={(e) => setFrom(Number(e.target.value))}
                         />
                     </th>
-                    <th className='border bg-white h-10' style={{minWidth: 200, maxWidth: 200}}>
+                    <th className='border bg-white h-10 font-normal' style={{minWidth: 200, maxWidth: 200}}>
                         <input
                             className='w-full h-full text-center'
                             type='number'
@@ -123,50 +139,50 @@ export default function Home() {
                             onChange={(e) => setTo(Number(e.target.value))}
                         />
                     </th>
-                    <th className='border bg-white h-10' style={{minWidth: 400, maxWidth: 400}}>
+                    <th className='border bg-white h-10 font-normal' style={{minWidth: 400, maxWidth: 400}}>
                         <input className='w-full h-full text-center' type='file' onChange={handleFileUpload}/>
                     </th>
-                    <th className='border bg-white h-10 p-0' style={{minWidth: 200, maxWidth: 200}}>
+                    <th className='border bg-white h-10 p-0 font-normal' style={{minWidth: 200, maxWidth: 200}}>
                         <button className='w-full h-full text-center hover:bg-gray-200' onClick={submit}>
                             Применить
                         </button>
                     </th>
-                    <th className='border bg-white h-10 text-center' style={{minWidth: 100, maxWidth: 100}}>
-                        Total: 0
+                    <th className='border bg-white h-10 text-center font-normal' style={{minWidth: 100, maxWidth: 100}}>
+                        Total: {total}
                     </th>
                 </tr>
                 <tr>
-                    <th className='border bg-white h-10' style={{minWidth: 100, maxWidth: 100}}>
+                    <th className='border bg-white h-10 font-normal' style={{minWidth: 100, maxWidth: 100}}>
                     </th>
-                    <th className='border bg-white h-10' style={{minWidth: 200, maxWidth: 200}}>
+                    <th className='border bg-white h-10 font-normal' style={{minWidth: 200, maxWidth: 200}}>
                         <input
                             className='w-full h-full text-center'
                             value={inputDate}
                             onChange={(e) => setInputDate(e.target.value)}
                         />
                     </th>
-                    <th className='border bg-white h-10' style={{minWidth: 200, maxWidth: 200}}>
+                    <th className='border bg-white h-10 font-normal' style={{minWidth: 200, maxWidth: 200}}>
                         <input
                             className='w-full h-full text-center'
                             value={contrAgent}
                             onChange={(e) => setContrAgent(e.target.value)}
                         />
                     </th>
-                    <th className='border bg-white h-10' style={{minWidth: 400, maxWidth: 400}}>
+                    <th className='border bg-white h-10 font-normal' style={{minWidth: 400, maxWidth: 400}}>
                         <input
                             className='w-full h-full text-center'
                             value={paymentDestination}
                             onChange={(e) => setPaymentDestination(e.target.value)}
                         />
                     </th>
-                    <th className='border bg-white h-10' style={{minWidth: 200, maxWidth: 200}}>
+                    <th className='border bg-white h-10 font-normal' style={{minWidth: 200, maxWidth: 200}}>
                         <input
                             className='w-full h-full text-center'
                             value={initiatorOfPayment}
                             onChange={(e) => setInitiatorOfPayment(e.target.value)}
                         />
                     </th>
-                    <th className='border bg-white h-10' style={{minWidth: 100, maxWidth: 100}}>
+                    <th className='border bg-white h-10 font-normal' style={{minWidth: 100, maxWidth: 100}}>
                         <input
                             className='w-full h-full text-center'
                             value={sum}
@@ -175,15 +191,24 @@ export default function Home() {
                     </th>
                 </tr>
                 <tr>
-                    <th className='border bg-white h-10 p-2' style={{minWidth: 100, maxWidth: 100}}>Номер</th>
-                    <th className='border bg-white h-10 p-2' style={{minWidth: 200, maxWidth: 200}}>Вх.дата</th>
-                    <th className='border bg-white h-10 p-2' style={{minWidth: 200, maxWidth: 200}}>Получатель</th>
-                    <th className='border bg-white h-10 p-2' style={{minWidth: 400, maxWidth: 400}}>Назначение платежа
+                    <th className='border bg-white h-10 p-2 font-normal' style={{minWidth: 100, maxWidth: 100}}>
+                        Номер
                     </th>
-                    <th className='border bg-white h-10 p-2' style={{minWidth: 200, maxWidth: 200}}>Инициатор по
-                        договору
+                    <th className='border bg-white h-10 p-2 font-normal' style={{minWidth: 200, maxWidth: 200}}>
+                        Вх.дата
                     </th>
-                    <th className='border bg-white h-10 p-2' style={{minWidth: 100, maxWidth: 100}}>Сумма</th>
+                    <th className='border bg-white h-10 p-2 font-normal' style={{minWidth: 200, maxWidth: 200}}>
+                        Получатель
+                    </th>
+                    <th className='border bg-white h-10 p-2 font-normal' style={{minWidth: 400, maxWidth: 400}}>
+                        Назначение платежа
+                    </th>
+                    <th className='border bg-white h-10 p-2 font-normal' style={{minWidth: 200, maxWidth: 200}}>
+                        Инициатор по договору
+                    </th>
+                    <th className='border bg-white h-10 p-2 font-normal' style={{minWidth: 100, maxWidth: 100}}>
+                        Сумма
+                    </th>
                 </tr>
                 </thead>
             </table>
