@@ -8,7 +8,33 @@ import {getUserByToken} from "@/utils/getUserByToken";
 export async function GET(req: any): Promise<NextResponse> {
     logger.debug('GET /api/main');
     try {
+        const url = req.nextUrl;
+        const year = url.searchParams.get('year');
+        const month = url.searchParams.get('month');
+
+        if (!year || !month) {
+            return NextResponse.json({error: 'Year and month are required'}, {status: 400});
+        }
+
+        const parsedYear = parseInt(year, 10);
+        const parsedMonth = parseInt(month, 10);
+
+        if (isNaN(parsedYear) || isNaN(parsedMonth) || parsedMonth < 1 || parsedMonth > 12) {
+            return NextResponse.json({error: 'Invalid year or month'}, {status: 400});
+        }
+
+        let where = {}
+
+        where = {
+            ...where,
+            dateInput: {
+                gte: new Date(parsedYear, parsedMonth - 1, 1),
+                lt: new Date(parsedYear, parsedMonth, 1),
+            },
+        }
+
         const table = await prisma.tableMain.findMany({
+            where,
             include: {
                 contractor: true,
                 initiator: true,

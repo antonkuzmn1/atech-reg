@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8e13b45b-0aff-44b8-86af-94e78b50d2aa" name="Changes" comment="Added import system by client">
-      <change afterPath="$PROJECT_DIR$/src/app/api/main/route.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/formatDate.ts" afterDir="false" />
+    <list default="true" id="8e13b45b-0aff-44b8-86af-94e78b50d2aa" name="Changes" comment="main section almost done">
+      <change afterPath="$PROJECT_DIR$/src/utils/getDateMonthForInput.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/import/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/import/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/main/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/main/route.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/main/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/main/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Topbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Topbar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/slices/appSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/slices/appSlice.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,7 +143,7 @@
       <workItem from="1732418763560" duration="822000" />
       <workItem from="1732622881300" duration="4883000" />
       <workItem from="1734259663722" duration="1922000" />
-      <workItem from="1734714975911" duration="11776000" />
+      <workItem from="1734714975911" duration="16960000" />
     </task>
     <task id="LOCAL-00001" summary="Created new application">
       <option name="closed" value="true" />
@@ -189,7 +185,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732351295475</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="main section almost done">
+      <option name="closed" value="true" />
+      <created>1734726844440</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1734726844440</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -201,6 +205,7 @@
     <MESSAGE value="Added loading and message" />
     <MESSAGE value="Added auth system" />
     <MESSAGE value="Added import system by client" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added import system by client" />
+    <MESSAGE value="main section almost done" />
+    <option name="LAST_COMMIT_MESSAGE" value="main section almost done" />
   </component>
 </project>
