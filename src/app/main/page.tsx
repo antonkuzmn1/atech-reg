@@ -26,7 +26,13 @@ export interface MainTableRow {
     ddMark: number,
     ddStatus: number,
     description: number,
-};
+}
+
+type Dropdown =
+    '' |
+    'contractor' |
+    'textDestination' |
+    'initiator'
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -35,11 +41,16 @@ export default function Home() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const [filter, setFilter] = useState<any>({});
-    const [dateInput, setDateInput] = useState<string>();
+    const [dateInput, setDateInput] = useState<string>('');
 
     const [table, setTable] = useState<MainTableRow[]>([]);
     const [editedRows, setEditedRows] = useState<MainTableRow[]>([]);
     const [editedFields, setEditedFields] = useState<{ id: number, field: string }[]>([]);
+
+    const [ddIsOpen, setDdIsOpen] = useState<Dropdown>('');
+
+    const [contractors, setContractors] = useState<{ id: number, name: string }[]>([]);
+    // const [selectedContractorsFilter, setSelectedContractorsFilter] = useState<number[]>([]);
 
     const getTable = async (): Promise<void> => {
         console.log('filter', filter);
@@ -49,6 +60,21 @@ export default function Home() {
             }).then(res => {
                 console.log(res.data);
                 setTable(res.data);
+            }).catch(err => {
+                console.error(err);
+                if (typeof err?.response?.data === 'string') {
+                    dispatch(setAppMessage(`Error: ${err.response.data}`));
+                }
+            }).finally(() => {
+                resolve();
+            });
+        })
+    }
+
+    const getContractors = async (): Promise<void> => {
+        return new Promise((resolve, _reject) => {
+            axios.get('/api/contractor', {}).then(res => {
+                setContractors(res.data.sort((a: any, b: any) => a.name.localeCompare(b.name)));
             }).catch(err => {
                 console.error(err);
                 if (typeof err?.response?.data === 'string') {
@@ -98,6 +124,46 @@ export default function Home() {
         router.push(`?${newParams.toString()}`);
     }
 
+    const ddContractorIsChecked = (id: number): boolean => {
+        const newParams = new URLSearchParams(searchParams.toString());
+        const contractorsString = newParams.get('contractors');
+
+        if (contractorsString === null || contractorsString === '') {
+            return false;
+        }
+
+        const contractors = contractorsString.split(',').map(Number);
+        return contractors.includes(id);
+    };
+
+    const putOrSpliceContractorInUrl = (id: number) => {
+        const newParams = new URLSearchParams(searchParams.toString());
+        const contractorsString = newParams.get('contractors');
+
+        if (contractorsString === null || contractorsString === '') {
+            newParams.set('contractors', id.toString());
+        } else {
+            const contractors = contractorsString.split(',').map(Number);
+            if (contractors.includes(id)) {
+                const index = contractors.indexOf(id);
+                contractors.splice(index, 1);
+            } else {
+                contractors.push(id);
+            }
+            newParams.set('contractors', contractors.toString());
+        }
+
+        router.push(`?${newParams.toString()}`);
+    }
+
+    const toggleDropdown = (dd: Dropdown) => {
+        if (ddIsOpen === dd) {
+            setDdIsOpen('')
+        } else {
+            setDdIsOpen(dd);
+        }
+    }
+
     const saveTable = () => {
         console.log(editedRows);
         dispatch(setAppLoading(true));
@@ -135,6 +201,7 @@ export default function Home() {
     const init = async () => {
         dispatch(setAppLoading(true));
         await getTable();
+        await getContractors();
         dispatch(setAppLoading(false));
     }
 
@@ -232,10 +299,55 @@ export default function Home() {
                         />
                     </th>
                     <th className='border bg-white h-10 p-1 font-normal' style={{minWidth: 300, maxWidth: 300}}>
-                        Контрагент
+                        <div className="relative">
+                            <button
+                                className={'hover:bg-gray-200 w-full h-full p-1'}
+                                children={'Контрагент'}
+                                onClick={() => toggleDropdown('contractor')}
+                            />
+                            {ddIsOpen === 'contractor' && (
+                                <div className="absolute z-10 mt-2 w-[600px] bg-white border border-gray-300">
+                                    <ul>
+                                        {contractors.map((contractor, index) => (
+                                            <li
+                                                key={index}
+                                                className="flex items-center px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                                                onClick={() => putOrSpliceContractorInUrl(contractor.id)}
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    id={`contractor_${contractor.id}`}
+                                                    className="mr-2"
+                                                    checked={ddContractorIsChecked(contractor.id)}
+                                                    readOnly
+                                                />
+                                                <label
+                                                    htmlFor={`contractor_${contractor.id}`}
+                                                    className="cursor-pointer"
+                                                    children={contractor.name}
+                                                    onClick={(e) => e.stopPropagation()}
+                                                />
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
                     </th>
                     <th className='border bg-white h-10 p-1 font-normal' style={{minWidth: 400, maxWidth: 400}}>
-                        Назначение
+                        <div className="relative">
+                            <button
+                                className={'hover:bg-gray-200 w-full h-full p-1'}
+                                children={'Назначение'}
+                                onClick={() => toggleDropdown('textDestination')}
+                            />
+                            {ddIsOpen === 'textDestination' && (
+                                <div className="absolute z-10 mt-2 w-[600px] bg-white border border-gray-300">
+                                    {/*<input*/}
+                                    {/*/>*/}
+                                </div>
+                            )}
+                        </div>
                     </th>
                     <th className='border bg-white h-10 p-1 font-normal' style={{minWidth: 300, maxWidth: 300}}>
                         Инициатор

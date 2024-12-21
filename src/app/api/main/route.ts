@@ -33,6 +33,16 @@ export async function GET(req: any): Promise<NextResponse> {
             },
         }
 
+        const contractors = url.searchParams.get('contractors');
+        if (contractors) {
+            where = {
+                ...where,
+                contractorId: {
+                    in: contractors.split(',').map(Number),
+                },
+            }
+        }
+
         const table = await prisma.tableMain.findMany({
             where,
             include: {
