@@ -43,6 +43,16 @@ export async function GET(req: any): Promise<NextResponse> {
             }
         }
 
+        const textDestination = url.searchParams.get('textDestination');
+        if (textDestination) {
+            where = {
+                ...where,
+                textDestination: {
+                    contains: textDestination,
+                },
+            }
+        }
+
         const table = await prisma.tableMain.findMany({
             where,
             include: {

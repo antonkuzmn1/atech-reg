@@ -50,7 +50,13 @@ export default function Home() {
     const [ddIsOpen, setDdIsOpen] = useState<Dropdown>('');
 
     const [contractors, setContractors] = useState<{ id: number, name: string }[]>([]);
-    // const [selectedContractorsFilter, setSelectedContractorsFilter] = useState<number[]>([]);
+    const [filteredContractors, setFilteredContractors] = useState<{ id: number, name: string }[]>([]);
+    const [filterContractors, setFilterContractors] = useState<string>('');
+    const [selectedContractorsFilter, setSelectedContractorsFilter] = useState<number[]>([]);
+
+    const [textDestinationFilter, setTextDestinationFilter] = useState<string>('');
+
+    /// GETS
 
     const getTable = async (): Promise<void> => {
         console.log('filter', filter);
@@ -74,7 +80,9 @@ export default function Home() {
     const getContractors = async (): Promise<void> => {
         return new Promise((resolve, _reject) => {
             axios.get('/api/contractor', {}).then(res => {
-                setContractors(res.data.sort((a: any, b: any) => a.name.localeCompare(b.name)));
+                const sortedContractors = res.data.sort((a: any, b: any) => a.name.localeCompare(b.name));
+                setContractors(sortedContractors);
+                setFilteredContractors(sortedContractors);
             }).catch(err => {
                 console.error(err);
                 if (typeof err?.response?.data === 'string') {
@@ -85,6 +93,8 @@ export default function Home() {
             });
         })
     }
+
+    /// TABLE
 
     const onChangeHandler = (id: number, field: keyof MainTableRow, value: string | number) => {
         const newTable: MainTableRow[] = [...table];
@@ -112,56 +122,6 @@ export default function Home() {
     const isEdited = (id: number, field: keyof MainTableRow): boolean => {
         const index = editedFields.findIndex((e) => e.id === id && e.field === field);
         return index !== -1;
-    }
-
-    const onDateInputChange = (value: string) => {
-        setDateInput(value);
-
-        const newParams = new URLSearchParams(searchParams.toString());
-        newParams.set('year', Number(value.split('-')[0]).toString());
-        newParams.set('month', Number(value.split('-')[1]).toString());
-
-        router.push(`?${newParams.toString()}`);
-    }
-
-    const ddContractorIsChecked = (id: number): boolean => {
-        const newParams = new URLSearchParams(searchParams.toString());
-        const contractorsString = newParams.get('contractors');
-
-        if (contractorsString === null || contractorsString === '') {
-            return false;
-        }
-
-        const contractors = contractorsString.split(',').map(Number);
-        return contractors.includes(id);
-    };
-
-    const putOrSpliceContractorInUrl = (id: number) => {
-        const newParams = new URLSearchParams(searchParams.toString());
-        const contractorsString = newParams.get('contractors');
-
-        if (contractorsString === null || contractorsString === '') {
-            newParams.set('contractors', id.toString());
-        } else {
-            const contractors = contractorsString.split(',').map(Number);
-            if (contractors.includes(id)) {
-                const index = contractors.indexOf(id);
-                contractors.splice(index, 1);
-            } else {
-                contractors.push(id);
-            }
-            newParams.set('contractors', contractors.toString());
-        }
-
-        router.push(`?${newParams.toString()}`);
-    }
-
-    const toggleDropdown = (dd: Dropdown) => {
-        if (ddIsOpen === dd) {
-            setDdIsOpen('')
-        } else {
-            setDdIsOpen(dd);
-        }
     }
 
     const saveTable = () => {
@@ -198,12 +158,85 @@ export default function Home() {
         setEditedFields([]);
     }
 
+    /// DROPDOWNS
+
+    const toggleDropdown = (dd: Dropdown) => {
+        if (ddIsOpen === dd) {
+            setDdIsOpen('')
+        } else {
+            setDdIsOpen(dd);
+        }
+    }
+
+    /// dateInput
+
+    const onDateInputChange = (value: string) => {
+        setDateInput(value);
+
+        const newParams = new URLSearchParams(searchParams.toString());
+        newParams.set('year', Number(value.split('-')[0]).toString());
+        newParams.set('month', Number(value.split('-')[1]).toString());
+
+        router.push(`?${newParams.toString()}`);
+    }
+
+    /// contractor
+
+    const ddContractorIsChecked = (id: number): boolean => {
+        return selectedContractorsFilter.includes(id);
+    };
+
+    const putOrSpliceContractor = (id: number) => {
+        const newContractors = [...selectedContractorsFilter];
+
+        if (newContractors.includes(id)) {
+            const index = newContractors.indexOf(id);
+            newContractors.splice(index, 1);
+        } else {
+            newContractors.push(id);
+        }
+
+        setSelectedContractorsFilter(newContractors);
+    }
+
+    const setContractorsInUrl = () => {
+        const newParams = new URLSearchParams(searchParams.toString());
+        newParams.set('contractors', selectedContractorsFilter.toString());
+        router.push(`?${newParams.toString()}`);
+    }
+
+    const dropContractorsFilter = () => {
+        setSelectedContractorsFilter([]);
+        const newParams = new URLSearchParams(searchParams.toString());
+        newParams.delete('contractors');
+        router.push(`?${newParams.toString()}`);
+    }
+
+    /// textDestination
+
+    const setTextDestinationInUrl = () => {
+        const newParams = new URLSearchParams(searchParams.toString());
+        newParams.set('textDestination', textDestinationFilter);
+        router.push(`?${newParams.toString()}`);
+    }
+
+    const dropTextDestinationFilter = () => {
+        setTextDestinationFilter('');
+        const newParams = new URLSearchParams(searchParams.toString());
+        newParams.delete('textDestination');
+        router.push(`?${newParams.toString()}`);
+    }
+
+    /// INIT
+
     const init = async () => {
         dispatch(setAppLoading(true));
         await getTable();
         await getContractors();
         dispatch(setAppLoading(false));
     }
+
+    /// HOOKS
 
     useEffect(() => {
         const queryParams = searchParams;
@@ -243,6 +276,13 @@ export default function Home() {
         }
     }, [filter]);
 
+    useEffect(() => {
+        const filtered = contractors.filter(contractor =>
+            contractor.name.toLowerCase().includes(filterContractors.toLowerCase())
+        );
+        setFilteredContractors(filtered);
+    }, [filterContractors, contractors]);
+
     return (
         <div className="w-fit p-2 mx-auto my-0">
             <table className="sticky top-[-1px]">
@@ -259,6 +299,7 @@ export default function Home() {
                         />
                     </th>
                     <th className='border bg-white h-10 p-1 font-normal' style={{minWidth: 300, maxWidth: 300}}>
+                        Количество строк: {table.length}
                     </th>
                     <th className='border bg-white h-10 p-1 font-normal' style={{minWidth: 200, maxWidth: 200}}>
                         {editedRows.length > 0 && <button
@@ -306,13 +347,19 @@ export default function Home() {
                                 onClick={() => toggleDropdown('contractor')}
                             />
                             {ddIsOpen === 'contractor' && (
-                                <div className="absolute z-10 mt-2 w-[600px] bg-white border border-gray-300">
-                                    <ul>
-                                        {contractors.map((contractor, index) => (
+                                <div className="absolute z-10 mt-2 w-[600px] bg-white border border-gray-200">
+                                    <input
+                                        className={'hover:bg-gray-200 w-full h-full p-2'}
+                                        placeholder={'Поиск'}
+                                        value={filterContractors}
+                                        onChange={(e) => setFilterContractors(e.target.value)}
+                                    />
+                                    <ul className={'max-h-[80vh] overflow-y-auto'}>
+                                        {filteredContractors.map((contractor, index) => (
                                             <li
                                                 key={index}
                                                 className="flex items-center px-4 py-2 hover:bg-gray-200 cursor-pointer"
-                                                onClick={() => putOrSpliceContractorInUrl(contractor.id)}
+                                                onClick={() => putOrSpliceContractor(contractor.id)}
                                             >
                                                 <input
                                                     type="checkbox"
@@ -330,6 +377,16 @@ export default function Home() {
                                             </li>
                                         ))}
                                     </ul>
+                                    <button
+                                        className={'hover:bg-gray-200 w-full h-full p-2'}
+                                        children={'Применить'}
+                                        onClick={setContractorsInUrl}
+                                    />
+                                    <button
+                                        className={'hover:bg-gray-200 w-full h-full p-2'}
+                                        children={'Сбросить'}
+                                        onClick={dropContractorsFilter}
+                                    />
                                 </div>
                             )}
                         </div>
@@ -343,8 +400,23 @@ export default function Home() {
                             />
                             {ddIsOpen === 'textDestination' && (
                                 <div className="absolute z-10 mt-2 w-[600px] bg-white border border-gray-300">
-                                    {/*<input*/}
-                                    {/*/>*/}
+                                    <input
+                                        type={'search'}
+                                        className={'hover:bg-gray-200 w-full h-full p-2'}
+                                        placeholder={'Поиск'}
+                                        value={textDestinationFilter}
+                                        onChange={(e) => setTextDestinationFilter(e.target.value)}
+                                    />
+                                    <button
+                                        className={'hover:bg-gray-200 w-full h-full p-2'}
+                                        children={'Применить'}
+                                        onClick={setTextDestinationInUrl}
+                                    />
+                                    <button
+                                        className={'hover:bg-gray-200 w-full h-full p-2'}
+                                        children={'Сбросить'}
+                                        onClick={dropTextDestinationFilter}
+                                    />
                                 </div>
                             )}
                         </div>
